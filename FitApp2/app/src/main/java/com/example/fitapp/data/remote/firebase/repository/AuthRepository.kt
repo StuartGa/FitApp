@@ -1,6 +1,6 @@
 package com.example.fitapp.data.remote.firebase.repository
 
-import com.example.fitapp.domain.UserModel
+import com.example.fitapp.domain.model.UserModel
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {

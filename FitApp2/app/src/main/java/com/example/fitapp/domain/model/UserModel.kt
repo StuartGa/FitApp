@@ -1,4 +1,4 @@
-package com.example.fitapp.domain
+package com.example.fitapp.domain.model
 
 data class UserModel (
     val userName: String,

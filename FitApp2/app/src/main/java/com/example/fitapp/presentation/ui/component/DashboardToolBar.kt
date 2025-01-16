@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,21 +19,23 @@ import androidx.compose.ui.tooling.preview.Preview
 fun DashboardToolBar(){
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = Color.Black,
             scrolledContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            titleContentColor = Color.White,
         ),
         navigationIcon = {
             IconButton(onClick = {  }) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Back"
+                    contentDescription = "Back",
+                    tint = Color.White
                 )
             }
         },
         actions = {
             TextButton(onClick = {  }) {
-                Text(text = "Edit")
+                Text(text = "Edit",
+                    color = Color.White)
             }
         },
         title = {

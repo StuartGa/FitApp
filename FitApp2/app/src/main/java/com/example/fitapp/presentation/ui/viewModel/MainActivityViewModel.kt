@@ -1,0 +1,56 @@
+import androidx.lifecycle.viewModelScope
+import com.example.fitapp.domain.usecases.GetStepsUseCase
+import com.example.fitapp.domain.usecases.InsertStepsUseCase
+import com.example.fitapp.presentation.ui.mvi.projectStructure.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    private val stepsUseCase: InsertStepsUseCase,
+    private val getStepsUseCase: GetStepsUseCase,
+)
+    :BaseViewModel<MainActivityEvent, MainActivityState, MainActivityEffect>() {
+
+    override fun createInitialState(): MainActivityState = MainActivityState.Idle
+
+
+    override fun handleEvent(event: MainActivityEvent) {
+        when (event) {
+            is MainActivityEvent.Loading -> handleLoading()
+            is MainActivityEvent.onLoadSteps -> handleLoading()
+            else -> {}
+        }
+    }
+
+    fun handleLoading() {
+        viewModelScope.launch {
+            getStepsUseCase()
+                .onStart { setState { MainActivityState.Loading } }
+                .catch { setEffect { MainActivityEffect.ShowToast("Error getting steps") } }
+                .collect { result ->
+                    result.fold(
+                        onSuccess = { steps ->
+                            setState { MainActivityState.Success(steps) }
+                            insertSteps(steps)
+                        },
+                        onFailure = { error ->
+                            setState { MainActivityState.Error(error.message ?: "Unknown error") }
+                            setEffect { MainActivityEffect.ShowToast("Error getting steps: ${error.message}") }
+                        }
+                    )
+        }
+    }
+    }
+
+
+    fun insertSteps(steps: Long) {
+        viewModelScope.launch {
+            stepsUseCase(steps)
+        }
+    }
+
+}

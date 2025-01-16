@@ -1,7 +1,7 @@
 package com.example.fitapp.domain.usecases
 
 import com.example.fitapp.data.remote.firebase.repository.AuthRepository
-import com.example.fitapp.domain.UserModel
+import com.example.fitapp.domain.model.UserModel
 import kotlinx.coroutines.flow.Flow
 
 class LoginUseCase(private val authRepository: AuthRepository) {
