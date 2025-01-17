@@ -1,10 +1,10 @@
 package com.example.fitapp.domain.worker
 
-import SensorRepository
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.fitapp.data.local.repository.SensorRepository
 import com.example.fitapp.data.local.sensor.StepCounter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

@@ -1,5 +1,6 @@
+package com.example.fitapp.data.local.repository
+
 import com.example.fitapp.data.local.database.StepsDao
-import com.example.fitapp.data.local.repository.SensorRepository
 import com.example.fitapp.domain.entities.StepsEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

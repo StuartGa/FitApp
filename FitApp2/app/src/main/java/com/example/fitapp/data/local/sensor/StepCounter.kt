@@ -6,14 +6,15 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
+import javax.inject.Inject
 import kotlin.coroutines.resume
 
 private const val TAG = "STEP_COUNT_LISTENER"
 
-context(Context)
-class StepCounter {
-    private val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+class StepCounter @Inject constructor(@ApplicationContext context: Context) {
+    private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
     suspend fun steps() = suspendCancellableCoroutine { continuation ->

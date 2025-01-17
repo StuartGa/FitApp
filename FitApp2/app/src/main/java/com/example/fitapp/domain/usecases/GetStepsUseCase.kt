@@ -1,6 +1,6 @@
 package com.example.fitapp.domain.usecases
 
-import SensorRepository
+import com.example.fitapp.data.local.repository.SensorRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -1,4 +1,11 @@
+package com.example.fitapp.presentation.ui.viewModel
+
+
+import MainActivityEffect
+import MainActivityEvent
+import MainActivityState
 import androidx.lifecycle.viewModelScope
+import com.example.fitapp.data.local.sensor.StepCounter
 import com.example.fitapp.domain.usecases.GetStepsUseCase
 import com.example.fitapp.domain.usecases.InsertStepsUseCase
 import com.example.fitapp.presentation.ui.mvi.projectStructure.BaseViewModel
@@ -12,9 +19,10 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     private val stepsUseCase: InsertStepsUseCase,
     private val getStepsUseCase: GetStepsUseCase,
+    private val stepCounter: StepCounter,
+
 )
     :BaseViewModel<MainActivityEvent, MainActivityState, MainActivityEffect>() {
-
     override fun createInitialState(): MainActivityState = MainActivityState.Idle
 
 
@@ -26,7 +34,7 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    fun handleLoading() {
+    private fun handleLoading() {
         viewModelScope.launch {
             getStepsUseCase()
                 .onStart { setState { MainActivityState.Loading } }
@@ -35,7 +43,7 @@ class MainActivityViewModel @Inject constructor(
                     result.fold(
                         onSuccess = { steps ->
                             setState { MainActivityState.Success(steps) }
-                            insertSteps(steps)
+                            insertSteps()
                         },
                         onFailure = { error ->
                             setState { MainActivityState.Error(error.message ?: "Unknown error") }
@@ -47,8 +55,9 @@ class MainActivityViewModel @Inject constructor(
     }
 
 
-    fun insertSteps(steps: Long) {
+    private fun insertSteps() {
         viewModelScope.launch {
+        val steps =  stepCounter.steps()
             stepsUseCase(steps)
         }
     }

@@ -1,5 +1,6 @@
 package com.example.fitapp.presentation.ui.theme.screen
 
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.padding
@@ -11,7 +12,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fitapp.MainActivity
 import com.example.fitapp.presentation.ui.component.AuthForm
 import com.example.fitapp.presentation.ui.mvi.effect.AuthEffect
 import com.example.fitapp.presentation.ui.mvi.state.AuthState
@@ -56,7 +59,8 @@ fun AuthScreen(
         }
         is AuthState.Success -> {
             Log.d("LoginScreen", "state -> ${state.value}")
-            onNavigateToHome()
+            val sendIntent = Intent(context, MainActivity::class.java)
+            context.startActivity(sendIntent)
         }
     }
 }

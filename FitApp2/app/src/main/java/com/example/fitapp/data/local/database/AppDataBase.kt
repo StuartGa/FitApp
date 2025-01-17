@@ -11,6 +11,7 @@ import com.example.fitapp.domain.view.UserView
     entities = [UserEntity::class, StepsEntity::class],
     views = [UserView::class, StepsView::class],
     version = 2,
+    exportSchema = false
 
 )
 abstract class AppDatabase : RoomDatabase() {
