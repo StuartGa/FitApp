@@ -1,6 +1,7 @@
 package com.example.fitapp.presentation.ui.viewModel
 
 import androidx.lifecycle.viewModelScope
+import com.example.fitapp.data.local.datastore.DataStoreManager
 import com.example.fitapp.domain.usecases.CreateUserUseCase
 import com.example.fitapp.domain.usecases.LoginUseCase
 import com.example.fitapp.presentation.ui.mvi.effect.AuthEffect
@@ -8,6 +9,7 @@ import com.example.fitapp.presentation.ui.mvi.event.AuthEvent
 import com.example.fitapp.presentation.ui.mvi.projectStructure.BaseViewModel
 import com.example.fitapp.presentation.ui.mvi.state.AuthState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -17,7 +19,10 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val createUserUseCase: CreateUserUseCase,
+    private val dataStoreManager: DataStoreManager,
 ):BaseViewModel<AuthEvent, AuthState, AuthEffect>() {
+
+    val isLoggedIn = MutableStateFlow(dataStoreManager.readLoggedInState())
 
     override fun createInitialState(): AuthState = AuthState.Idle
 
@@ -39,6 +44,7 @@ class LoginViewModel @Inject constructor(
                     result.fold(
                         onSuccess = { user ->
                             setState { AuthState.Success(user) }
+                            dataStoreManager.saveSession(true, user.userEmail)
                             setEffect { AuthEffect.NavigateToDashboard }
                         },
                         onFailure = { error ->
@@ -59,6 +65,7 @@ class LoginViewModel @Inject constructor(
                     result.fold(
                         onSuccess = { user ->
                             setState { AuthState.Success(user) }
+                            dataStoreManager.saveSession(true, user.userEmail)
                             setEffect { AuthEffect.NavigateToDashboard }
                         },
                         onFailure = { error ->
