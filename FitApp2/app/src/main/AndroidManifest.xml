@@ -32,7 +32,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.FitApp" />
         <provider
             android:name="androidx.startup.InitializationProvider"

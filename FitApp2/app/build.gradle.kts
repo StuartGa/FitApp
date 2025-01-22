@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.connect.client)
 
+
     //DataStore
     implementation (libs.androidx.datastore.preferences)
     // Room dependencies
@@ -72,10 +73,16 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.hilt.common)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.storage)
+    implementation(libs.androidx.storage)
+    implementation(libs.accessibility.test.framework)
+    implementation(libs.accessibility.test.framework)
     ksp(libs.androidx.room.compiler)
 
     // Work Manager
     implementation(libs.androidx.work.runtime.ktx)
+
 
     // Hilt dependencies
     implementation(libs.hilt.android)
