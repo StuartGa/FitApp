@@ -1,23 +1,32 @@
 package com.example.fitapp
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.fitapp.presentation.ui.theme.FitAppTheme
 import com.example.fitapp.presentation.ui.theme.screen.AuthScreen
+import com.example.fitapp.presentation.ui.viewModel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginActivity:ComponentActivity() {
 
-
+class LoginActivity  ():ComponentActivity()
+{
+    private val viewModel: LoginViewModel by viewModels()
     private val PERMISSION_REQUEST_CODE = 101
     private val activityRecognitionPermission = android.Manifest.permission.ACTIVITY_RECOGNITION
 
@@ -27,7 +36,6 @@ class LoginActivity:ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         if (isPermissionGranted(activityRecognitionPermission)) {
-            // Permission granted, proceed with activity recognition tasks
             Toast.makeText(
                 this,
                 "Activity Recognition Permission already granted!",
@@ -37,21 +45,26 @@ class LoginActivity:ComponentActivity() {
             // Request the permission
             requestPermission(activityRecognitionPermission)
         }
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.isLoggedIn.value.collect {
+                if(it){
+                    val sendIntent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(sendIntent)
+                    finish()
+                } else {
+                withContext(Dispatchers.Main) {
+                    setContent{
+                        FitAppTheme {
+                            Scaffold(Modifier.fillMaxSize()) { padding ->
+                                AuthScreen(onClick())
+                            }
+                        }
+                    }
 
-
-
-        setContent{
-            FitAppTheme {
-            Scaffold(Modifier.fillMaxSize()) { padding ->
-                AuthScreen(onClick())
-            }
+                }
+            } }
                 }
         }
-
-
-
-
-    }
 
 
     private fun isPermissionGranted(permission: String): Boolean {
