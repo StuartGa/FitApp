@@ -1,13 +1,15 @@
 package com.example.fitapp
 
-import MainActivityEvent
 import MainActivityState
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.fitapp.presentation.ui.component.DashboardToolBar
 import com.example.fitapp.presentation.ui.screens.DashboardScreen
 import com.example.fitapp.presentation.ui.theme.FitAppTheme
 import com.example.fitapp.presentation.ui.viewModel.MainActivityViewModel
@@ -34,11 +37,11 @@ class MainActivity : ComponentActivity() {
 
 
             FitAppTheme {
+                DashboardScreen()
                 when (state.value) {
                     is MainActivityState.Idle -> {
                         Log.d("MainActivity", "state -> ${state.value}")
                         viewModel.setEvent(MainActivityEvent.Loading("email", "password"))
-
                     }
                     is MainActivityState.Loading -> {
                         Log.d("MainActivity", "state -> ${state.value}")
@@ -49,8 +52,8 @@ class MainActivity : ComponentActivity() {
                     }
                     is MainActivityState.Success -> {
                         Log.d("MainActivity", "state -> ${state.value}")
+                        Text(text = "Success: ${(state.value as MainActivityState.Success).steps}", modifier = Modifier.padding(16.dp))
 
-                        DashboardScreen((state.value as MainActivityState.Success).steps)
                     }
 
                     else -> {}
@@ -67,7 +70,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DashboardPreview() {
     FitAppTheme {
-        DashboardScreen(100L)
+        DashboardScreen()
     }
 }
 

@@ -36,7 +36,6 @@ class MainActivityViewModel @Inject constructor(
 
     private fun handleLoading() {
         viewModelScope.launch {
-            insertSteps()
             getStepsUseCase()
                 .onStart { setState { MainActivityState.Loading } }
                 .catch { setEffect { MainActivityEffect.ShowToast("Error getting steps") } }
@@ -44,6 +43,7 @@ class MainActivityViewModel @Inject constructor(
                     result.fold(
                         onSuccess = { steps ->
                             setState { MainActivityState.Success(steps) }
+                            insertSteps()
                         },
                         onFailure = { error ->
                             setState { MainActivityState.Error(error.message ?: "Unknown error") }

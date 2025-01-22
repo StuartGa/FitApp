@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun DateText(text: String, modifier: Modifier = Modifier) {
-    Text(text = text,
+    Text(text = "16 DE JUNIO DE 2022",
         color = Color.White,
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.Bold,
