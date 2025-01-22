@@ -17,6 +17,7 @@ class StepCounter @Inject constructor(@ApplicationContext context: Context) {
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
 
+
     suspend fun steps() = suspendCancellableCoroutine { continuation ->
         Log.d(TAG, "Registering sensor listener... ")
 
