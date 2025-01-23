@@ -6,4 +6,6 @@ sealed class MainActivityState: UIState {
     object Loading : MainActivityState()
     data class Success(val steps: Long) : MainActivityState()
     data class Error(val error: String) : MainActivityState()
+    object LogOut : MainActivityState()
+
 }

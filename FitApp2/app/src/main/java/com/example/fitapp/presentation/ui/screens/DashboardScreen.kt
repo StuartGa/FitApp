@@ -1,30 +1,26 @@
 package com.example.fitapp.presentation.ui.screens
 
-import MainActivityState
-import android.util.Log
-import androidx.compose.foundation.layout.Column
+import MainActivityEffect
+import MainActivityEvent
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.fitapp.Greeting
-import com.example.fitapp.presentation.ui.group.DashboardTapGroup
-import com.example.fitapp.presentation.ui.component.DashboardToolBar
-import com.example.fitapp.presentation.ui.component.DateText
+import androidx.core.content.ContextCompat.startActivity
+import com.example.fitapp.LoginActivity
 import com.example.fitapp.presentation.ui.group.DashboardTopbar
 import com.example.fitapp.presentation.ui.theme.FitAppTheme
-import java.time.Instant
 
 @Composable
-fun DashboardScreen(steps: Long) {
+fun DashboardScreen(steps: Long, onClickMenu: (event : MainActivityEvent) -> Unit) {
+
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-                DashboardTopbar()
+                DashboardTopbar(onClickMenu)
 
         }) { innerPadding ->
 
@@ -39,6 +35,6 @@ fun DashboardScreen(steps: Long) {
 @Composable
 fun DashboardPreview() {
     FitAppTheme {
-        DashboardScreen(100L)
+        DashboardScreen(100L,onClickMenu = {})
     }
 }

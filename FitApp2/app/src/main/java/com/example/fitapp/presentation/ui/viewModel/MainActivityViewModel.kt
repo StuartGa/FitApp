@@ -5,6 +5,7 @@ import MainActivityEffect
 import MainActivityEvent
 import MainActivityState
 import androidx.lifecycle.viewModelScope
+import com.example.fitapp.data.local.datastore.DataStoreManager
 import com.example.fitapp.data.local.sensor.StepCounter
 import com.example.fitapp.domain.usecases.GetStepsUseCase
 import com.example.fitapp.domain.usecases.InsertStepsUseCase
@@ -20,8 +21,10 @@ class MainActivityViewModel @Inject constructor(
     private val stepsUseCase: InsertStepsUseCase,
     private val getStepsUseCase: GetStepsUseCase,
     private val stepCounter: StepCounter,
+    private val dataStoreManager: DataStoreManager,
 
-)
+
+    )
     :BaseViewModel<MainActivityEvent, MainActivityState, MainActivityEffect>() {
     override fun createInitialState(): MainActivityState = MainActivityState.Idle
 
@@ -30,6 +33,7 @@ class MainActivityViewModel @Inject constructor(
         when (event) {
             is MainActivityEvent.Loading -> handleLoading()
             is MainActivityEvent.onLoadSteps -> handleLoading()
+            is MainActivityEvent.LogOut -> handleLogOut()
             else -> {}
         }
     }
@@ -53,6 +57,13 @@ class MainActivityViewModel @Inject constructor(
         }
     }
     }
+
+    private fun handleLogOut() =
+        viewModelScope.launch {
+            setState { MainActivityState.Idle }
+            dataStoreManager.clearSession()
+    }
+
 
 
     private fun insertSteps() {

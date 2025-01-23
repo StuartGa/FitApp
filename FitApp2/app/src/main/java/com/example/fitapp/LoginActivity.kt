@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @AndroidEntryPoint
 
@@ -56,7 +55,7 @@ class LoginActivity  ():ComponentActivity()
                     setContent{
                         FitAppTheme {
                             Scaffold(Modifier.fillMaxSize()) { padding ->
-                                AuthScreen(onClick())
+                                AuthScreen()
                             }
                         }
                     }
