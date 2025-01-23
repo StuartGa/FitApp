@@ -41,7 +41,6 @@ fun DashboardToolBar(callback: (event : MainActivityEvent) -> Unit){
             Text(text = "Activity")
         },
         modifier = Modifier.fillMaxWidth()
-            .padding(0.dp)
     )
 }
 

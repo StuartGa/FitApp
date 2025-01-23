@@ -71,9 +71,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.material3.android)
-    implementation(libs.androidx.hilt.common)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.storage)
     implementation(libs.androidx.storage)
     implementation(libs.accessibility.test.framework)
@@ -88,6 +86,10 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.hilt.common)
+
+
 
     // Testing dependencies
     testImplementation(libs.junit)

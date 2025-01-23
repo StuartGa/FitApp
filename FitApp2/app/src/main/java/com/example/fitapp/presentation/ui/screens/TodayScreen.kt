@@ -3,6 +3,7 @@ package com.example.fitapp.presentation.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -21,10 +22,7 @@ import com.example.fitapp.presentation.ui.theme.FitAppTheme
 fun TodayScreen(iner: PaddingValues = PaddingValues(0.dp), steps: Long ) {
     Column(
         Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-            .wrapContentHeight()
-            .padding(bottom = iner.calculateBottomPadding())
+            .padding(top = 4.dp)
     ) {
         StepCounter(steps = steps)
         DashboardHorizontalDivider()

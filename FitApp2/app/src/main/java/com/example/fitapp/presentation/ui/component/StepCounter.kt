@@ -59,7 +59,7 @@ fun StepCounter(
                 style = MaterialTheme.typography.titleMedium)
         }
         LinearProgressIndicator(
-            progress = { progress.coerceIn(0f, stepGoal.toFloat()) },
+            progress = { progress.coerceIn(0f, 100f) },
             color = androidx.compose.ui.graphics.Color.Green,
             trackColor = androidx.compose.ui.graphics.Color.LightGray,
             strokeCap = ProgressIndicatorDefaults.CircularDeterminateStrokeCap,
