@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FitApp"
 include(":app")
- 
+include(":wearos")

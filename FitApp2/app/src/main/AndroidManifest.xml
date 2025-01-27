@@ -39,5 +39,8 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
     </application>
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+    </queries>
 
 </manifest>
