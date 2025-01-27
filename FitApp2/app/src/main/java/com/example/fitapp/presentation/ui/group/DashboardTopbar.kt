@@ -1,10 +1,9 @@
 package com.example.fitapp.presentation.ui.group
 
 import MainActivityEvent
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,7 +15,7 @@ import com.example.fitapp.presentation.ui.component.DateText
 import com.example.fitapp.presentation.ui.theme.FitAppTheme
 
 @Composable
-fun DashboardTopbar(callback: (event: MainActivityEvent) -> Unit) {
+fun DashboardTopBar(callback: (event: MainActivityEvent) -> Unit) {
     Column(
         Modifier
             .fillMaxWidth(),
@@ -30,8 +29,8 @@ fun DashboardTopbar(callback: (event: MainActivityEvent) -> Unit) {
 
 @Preview(showBackground = true)
 @Composable
-fun DashboardTopbarPreview(){
+fun DashboardTopBarPreview(){
     FitAppTheme {
-        DashboardTopbar({})
+        DashboardTopBar({})
     }
 }

@@ -7,17 +7,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
-import com.example.fitapp.presentation.ui.group.DashboardTopbar
+import com.example.fitapp.presentation.ui.group.DashboardTopBar
 import com.example.fitapp.presentation.ui.screens.TodayScreen
 import com.example.fitapp.presentation.ui.theme.FitAppTheme
 import com.example.fitapp.presentation.ui.viewModel.MainActivityViewModel
@@ -34,8 +38,9 @@ class MainActivity : ComponentActivity() {
             val state = viewModel.uiState.collectAsState()
             FitAppTheme {
                 Scaffold(
+                    modifier = Modifier.fillMaxSize(),
                     topBar = {
-                        DashboardTopbar({
+                        DashboardTopBar({
                             viewModel::setEvent
                         })
 
@@ -44,25 +49,28 @@ class MainActivity : ComponentActivity() {
                     when (state.value) {
                         is MainActivityState.Idle -> {
                             CircularProgressIndicator(modifier = Modifier.padding(innerPadding))
+                            viewModel.setEvent(MainActivityEvent.Loading)
                         }
 
                         is MainActivityState.Loading -> {
-                            CircularProgressIndicator(
-                                Modifier.fillMaxSize()
-                                    .padding(innerPadding)
-                            )
+
                         }
 
                         is MainActivityState.Error -> {
-                            TodayScreen(iner = innerPadding, 0L)
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                TodayScreen(iner = innerPadding, 0L)
+                            }
 
                         }
 
                         is MainActivityState.Success -> {
-                            TodayScreen(
-                                iner = innerPadding,
-                                steps = (state.value as MainActivityState.Success).steps
-                            )
+                            Box(modifier = Modifier.padding(innerPadding)) {
+                                TodayScreen(
+                                    iner = innerPadding,
+                                    steps = (state.value as MainActivityState.Success).steps
+                                )
+                            }
+
                         }
 
                         else -> {}
@@ -104,7 +112,7 @@ class MainActivity : ComponentActivity() {
         FitAppTheme {
             Scaffold(modifier = Modifier.fillMaxSize(),
                 topBar = {
-                    DashboardTopbar({})
+                    DashboardTopBar({})
                 })
             { innerPadding ->
                 TodayScreen(innerPadding, 100L)
