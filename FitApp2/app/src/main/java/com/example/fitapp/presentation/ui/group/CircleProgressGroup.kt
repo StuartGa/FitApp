@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitapp.R
 import com.example.fitapp.domain.model.CircleModel
+import com.example.fitapp.domain.model.CircleType
 import com.example.fitapp.presentation.ui.component.CircleProgress
 
 @Composable
@@ -25,15 +26,15 @@ fun CircleProgressGroup(list: List<CircleModel> = emptyList()) {
     ){
 
         list.map {
-            when(it) {
-                is CircleModel.Running -> {
-                    CircleProgress(circleModel = it.copy(icon = R.drawable.running_img, iconColor = Color.Green, circularColor = Color.Green))
+            when(it.type) {
+                CircleType.RUNNING -> {
+                    CircleProgress(circleModel = it.copy(icon = R.drawable.baseline_directions_run_24, iconColor = Color.Green, circularColor = Color.Green))
                 }
-                is CircleModel.Calories -> {
-                    CircleProgress(circleModel = it.copy(icon = R.drawable.running_img, iconColor = Color.Green, circularColor = Color.Green))
+                CircleType.STAND -> {
+                    CircleProgress(circleModel = it.copy(icon = R.drawable.baseline_arrow_upward_24, iconColor = Color.Green, circularColor = Color.Green))
                 }
-                is CircleModel.Stand -> {
-                    CircleProgress(circleModel = it.copy(icon = R.drawable.running_img, iconColor = Color.Green, circularColor = Color.Green))
+                CircleType.CALORIES -> {
+                    CircleProgress(circleModel = it.copy(icon = R.drawable.baseline_local_fire_department_24, iconColor = Color.Green, circularColor = Color.Green))
             }
 
         }
@@ -45,6 +46,6 @@ fun CircleProgressGroup(list: List<CircleModel> = emptyList()) {
 @Preview(showBackground = true)
 @Composable
 fun CircleProgressGroupPreview() {
-    CircleProgressGroup(list = listOf(CircleModel.Running(kilometers = 10f,
+    CircleProgressGroup(list = listOf(CircleModel(CircleType.RUNNING,
         percentage = 0.8f, iconColor = Color.Green, icon = R.drawable.running_img, circularColor = Color.Green)))
 }

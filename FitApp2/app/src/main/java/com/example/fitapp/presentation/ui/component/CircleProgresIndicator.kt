@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fitapp.R
 import com.example.fitapp.domain.model.CircleModel
+import com.example.fitapp.domain.model.CircleType
 
 
 @Composable
@@ -59,7 +60,7 @@ fun CircleProgress(
                 style = Stroke(12.dp.toPx(), cap = StrokeCap.Round)
             )
             drawArc(
-                color = circleModel.,
+                color = circleModel.circularColor,
                 startAngle = -90f,
                 sweepAngle = 360 * currentPercentage.value,
                 useCenter = false,
@@ -95,7 +96,7 @@ fun CircleProgressGroupPreview() {
         modifier = Modifier.fillMaxSize()
     ){
         CircleProgress(
-            circleModel = CircleModel.Running(kilometers = 10f,
+            circleModel = CircleModel( type = CircleType.STAND,
             percentage = 0.8f, iconColor = Color.Green, icon = R.drawable.running_img, circularColor = Color.Green))
 
     }
