@@ -22,30 +22,24 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fitapp.R
+import com.example.fitapp.domain.model.CircleModel
 
 
 @Composable
 fun CircleProgress(
-    percentage: Float,
-    iconColor: Color = Color.Red,
-    color: Color = Color.Blue,
-    strokeWidth: Dp = 12.dp,
-    animDuration: Int = 1000,
-    animDelay: Int = 0,
-    imageRes: Int
+    circleModel: CircleModel
 )
 {
     var animationPlayed by remember { mutableStateOf(false) }
 
     val currentPercentage = animateFloatAsState(
-        targetValue = if(animationPlayed) percentage else 0f,
+        targetValue = if(animationPlayed) 0.8f else 0f,
         animationSpec = tween(
-            durationMillis = animDuration,
-            delayMillis = animDelay
+            durationMillis = 1000,
+            delayMillis = 0
         )
     )
 
@@ -62,26 +56,27 @@ fun CircleProgress(
             drawCircle(
                 color = Color.DarkGray,
                 radius = size.width / 2,
-                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+                style = Stroke(12.dp.toPx(), cap = StrokeCap.Round)
             )
             drawArc(
-                color = color,
+                color = circleModel.,
                 startAngle = -90f,
                 sweepAngle = 360 * currentPercentage.value,
                 useCenter = false,
-                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+                style = Stroke(12.dp.toPx(), cap = StrokeCap.Round)
             )
 
         }
         Icon(
-            painter = painterResource(id = imageRes),
+            painter = painterResource(id = circleModel.icon),
             contentDescription = "icon",
-            tint = iconColor,
+            tint = circleModel.iconColor,
             modifier = Modifier
                 .align(Alignment.Center)
                 .size(40.dp)
         )
     }
+
         Text(text = "${(currentPercentage.value * 100).toInt()}%", fontSize = 18.sp, color = Color.Black)
 
 
@@ -99,7 +94,9 @@ fun CircleProgressGroupPreview() {
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ){
-        CircleProgress(percentage = 0.8f, iconColor = Color.Green, imageRes = R.drawable.running_img)
+        CircleProgress(
+            circleModel = CircleModel.Running(kilometers = 10f,
+            percentage = 0.8f, iconColor = Color.Green, icon = R.drawable.running_img, circularColor = Color.Green))
 
     }
 }

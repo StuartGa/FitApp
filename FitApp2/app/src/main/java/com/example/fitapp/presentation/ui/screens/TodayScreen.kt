@@ -19,14 +19,14 @@ import com.example.fitapp.presentation.ui.group.DashboardCardGroup
 import com.example.fitapp.presentation.ui.theme.FitAppTheme
 
 @Composable
-fun TodayScreen(iner: PaddingValues = PaddingValues(0.dp), steps: Long ) {
+fun TodayScreen(steps: Long ) {
     Column(
         Modifier
             .padding(top = 4.dp)
     ) {
         StepCounter(steps = steps)
         DashboardHorizontalDivider()
-        CircleProgressGroup(progress = 0.5f)
+        CircleProgressGroup()
         DashboardHorizontalDivider()
         DashboardCardGroup()
         DashboardHorizontalDivider()
