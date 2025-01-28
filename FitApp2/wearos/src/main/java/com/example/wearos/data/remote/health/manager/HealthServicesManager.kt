@@ -1,20 +1,22 @@
 package com.example.wearos.data.remote.health.manager
 
 import android.content.Context
-import health.connect.HealthServices
-import health.connect.data.DataPointContainer
-import health.connect.data.SampleDataPoint
-import health.connect.data.availability.Availability
-import health.connect.data.availability.DataTypeAvailability
-import health.connect.data.delta.DeltaDataType
-import health.connect.measure.MeasureCallback
-import kotlinx.coroutines.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.runBlocking
 import android.util.Log
+import androidx.health.services.client.HealthServices
+import androidx.health.services.client.MeasureCallback
+import androidx.health.services.client.data.Availability
+import androidx.health.services.client.data.DataPointContainer
+import androidx.health.services.client.data.DataTypeAvailability
+import androidx.health.services.client.data.DeltaDataType
+import androidx.health.services.client.data.SampleDataPoint
+import androidx.health.services.client.getCapabilities
+import androidx.health.services.client.unregisterMeasureCallback
 import com.google.android.gms.fitness.data.DataType
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -25,7 +27,7 @@ class HealthServicesManager @Inject constructor (@ApplicationContext private val
 
     suspend fun hasHeartRateCapability() = runCatching {
         val capabilities = measureClient.getCapabilities()
-        (DataType.HEART_RATE_BPM in capabilities.supportedDataTypesMeasure)
+        (androidx.health.services.client.data.DataType.HEART_RATE_BPM in capabilities.supportedDataTypesMeasure)
     }.getOrDefault(false)
 
     /**
@@ -41,24 +43,23 @@ class HealthServicesManager @Inject constructor (@ApplicationContext private val
             override fun onAvailabilityChanged(dataType: DeltaDataType<*, *>, availability: Availability) {
                 // Only send back DataTypeAvailability (not LocationAvailability)
                 if (availability is DataTypeAvailability) {
-                    trySendBlocking(MeasureMessage.MeasureAvailability(availability))
+                    trySend(MeasureMessage.MeasureAvailability(availability))
                 }
             }
 
             override fun onDataReceived(data: DataPointContainer) {
-                val heartRateBpm = data.getData(DataType.HEART_RATE_BPM)
+                val heartRateBpm = data.getData(androidx.health.services.client.data.DataType.HEART_RATE_BPM)
                 Log.d(TAG, "💓 Received heart rate: ${heartRateBpm.first().value}")
-                trySendBlocking(MeasureMessage.MeasureData(heartRateBpm))
+                trySend(MeasureMessage.MeasureData(heartRateBpm))
             }
         }
 
-        Log.d(TAG, "⌛ Registering for data...")
-        measureClient.registerMeasureCallback(DataType.HEART_RATE_BPM, callback)
+        measureClient.registerMeasureCallback(androidx.health.services.client.data.DataType.HEART_RATE_BPM , callback)
 
         awaitClose {
             Log.d(TAG, "👋 Unregistering for data")
             runBlocking {
-                measureClient.unregisterMeasureCallback(DataType.HEART_RATE_BPM, callback)
+                measureClient.unregisterMeasureCallback(androidx.health.services.client.data.DataType.HEART_RATE_BPM, callback)
             }
         }
     }

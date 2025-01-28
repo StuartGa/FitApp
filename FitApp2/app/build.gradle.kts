@@ -78,6 +78,11 @@ dependencies {
     implementation(libs.accessibility.test.framework)
     ksp(libs.androidx.room.compiler)
 
+
+
+    //Permission manager
+    implementation(libs.accompanist.permissions)
+
     // Work Manager
     implementation(libs.androidx.work.runtime.ktx)
 
