@@ -18,7 +18,7 @@ fun DashboardScreen(steps: Long, onClickMenu: (event : MainActivityEvent) -> Uni
 
         }) { innerPadding ->
 
-        TodayScreen(innerPadding, steps)
+        TodayScreen(steps)
 
     }
 

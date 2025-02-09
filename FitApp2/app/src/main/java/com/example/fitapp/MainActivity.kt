@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
 
                         is MainActivityState.Error -> {
                             Box(modifier = Modifier.padding(innerPadding)) {
-                                TodayScreen(iner = innerPadding, 0L)
+                                TodayScreen( 0L)
                             }
 
                         }
@@ -66,7 +66,6 @@ class MainActivity : ComponentActivity() {
                         is MainActivityState.Success -> {
                             Box(modifier = Modifier.padding(innerPadding)) {
                                 TodayScreen(
-                                    iner = innerPadding,
                                     steps = (state.value as MainActivityState.Success).steps
                                 )
                             }
@@ -115,7 +114,9 @@ class MainActivity : ComponentActivity() {
                     DashboardTopBar({})
                 })
             { innerPadding ->
-                TodayScreen(innerPadding, 100L)
+                Box(modifier = Modifier.padding(innerPadding)) {
+                TodayScreen( 100L)
+                }
             }
 
         }
