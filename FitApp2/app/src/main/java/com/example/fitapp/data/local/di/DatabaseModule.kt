@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.fitapp.data.local.database.AppDatabase
 import com.example.fitapp.data.local.database.BodyMeasurementDao
+import com.example.fitapp.data.local.database.ExerciseDao
 import com.example.fitapp.data.local.database.GoalDao
 import com.example.fitapp.data.local.database.StepsDao
 import com.example.fitapp.data.local.database.UserDao
@@ -39,4 +40,7 @@ object DatabaseModule {
 
     @Singleton @Provides
     fun provideBodyMeasurementDao(database: AppDatabase): BodyMeasurementDao = database.bodyMeasurementDao()
+
+    @Singleton @Provides
+    fun provideExerciseDao(database: AppDatabase): ExerciseDao = database.exerciseDao()
 }
