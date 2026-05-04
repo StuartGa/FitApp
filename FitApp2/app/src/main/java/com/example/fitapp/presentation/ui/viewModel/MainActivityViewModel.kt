@@ -1,10 +1,10 @@
 package com.example.fitapp.presentation.ui.viewModel
 
-
 import com.example.fitapp.presentation.ui.mvi.effect.MainActivityEffect
 import com.example.fitapp.presentation.ui.mvi.event.MainActivityEvent
 import com.example.fitapp.presentation.ui.mvi.state.MainActivityState
 import androidx.lifecycle.viewModelScope
+import com.example.fitapp.data.local.datastore.DataStoreManager
 import com.example.fitapp.data.local.sensor.StepCounter
 import com.example.fitapp.domain.usecases.GetStepsUseCase
 import com.example.fitapp.domain.usecases.InsertStepsUseCase
@@ -12,6 +12,9 @@ import com.example.fitapp.presentation.ui.mvi.projectStructure.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,11 +23,20 @@ class MainActivityViewModel @Inject constructor(
     private val stepsUseCase: InsertStepsUseCase,
     private val getStepsUseCase: GetStepsUseCase,
     private val stepCounter: StepCounter,
+    private val dataStoreManager: DataStoreManager
+) : BaseViewModel<MainActivityEvent, MainActivityState, MainActivityEffect>() {
 
-)
-    :BaseViewModel<MainActivityEvent, MainActivityState, MainActivityEffect>() {
+    val onboardingCompleted: StateFlow<Boolean> = dataStoreManager
+        .isOnboardingCompleted()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     override fun createInitialState(): MainActivityState = MainActivityState.Idle
 
+    fun completeOnboarding() {
+        viewModelScope.launch {
+            dataStoreManager.setOnboardingCompleted()
+        }
+    }
 
     override fun handleEvent(event: MainActivityEvent) {
         when (event) {
@@ -50,16 +62,14 @@ class MainActivityViewModel @Inject constructor(
                             setEffect { MainActivityEffect.ShowToast("Error getting steps: ${error.message}") }
                         }
                     )
+                }
         }
     }
-    }
-
 
     private fun insertSteps() {
         viewModelScope.launch {
-        val steps =  stepCounter.steps()
+            val steps = stepCounter.steps()
             stepsUseCase(steps)
         }
     }
-
 }
