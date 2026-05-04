@@ -9,6 +9,7 @@ import com.example.fitapp.data.local.database.GoalDao
 import com.example.fitapp.data.local.database.StepsDao
 import com.example.fitapp.data.local.database.UserDao
 import com.example.fitapp.data.local.database.UserProfileDao
+import com.example.fitapp.data.local.database.WorkoutDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,4 +44,7 @@ object DatabaseModule {
 
     @Singleton @Provides
     fun provideExerciseDao(database: AppDatabase): ExerciseDao = database.exerciseDao()
+
+    @Singleton @Provides
+    fun provideWorkoutDao(database: AppDatabase): WorkoutDao = database.workoutDao()
 }
