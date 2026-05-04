@@ -1,9 +1,9 @@
 package com.example.fitapp.presentation.ui.viewModel
 
 
-import MainActivityEffect
-import MainActivityEvent
-import MainActivityState
+import com.example.fitapp.presentation.ui.mvi.effect.MainActivityEffect
+import com.example.fitapp.presentation.ui.mvi.event.MainActivityEvent
+import com.example.fitapp.presentation.ui.mvi.state.MainActivityState
 import androidx.lifecycle.viewModelScope
 import com.example.fitapp.data.local.sensor.StepCounter
 import com.example.fitapp.domain.usecases.GetStepsUseCase

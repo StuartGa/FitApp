@@ -21,11 +21,41 @@ class LoginViewModel @Inject constructor(
 
     override fun createInitialState(): AuthState = AuthState.Idle
 
-
     override fun handleEvent(event: AuthEvent) {
         when (event) {
-            is AuthEvent.Login -> login(event.email, event.password)
-            is AuthEvent.Register -> register(event.email, event.password)
+            is AuthEvent.Login -> {
+                if (validateInput(event.email, event.password)) {
+                    login(event.email.trim(), event.password)
+                }
+            }
+            is AuthEvent.Register -> {
+                if (validateInput(event.email, event.password)) {
+                    register(event.email.trim(), event.password)
+                }
+            }
+        }
+    }
+
+    private fun validateInput(email: String, password: String): Boolean {
+        val emailRegex = Regex("^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$")
+        return when {
+            email.isBlank() -> {
+                setEffect { AuthEffect.ShowToast("Email cannot be empty") }
+                false
+            }
+            !emailRegex.matches(email.trim()) -> {
+                setEffect { AuthEffect.ShowToast("Invalid email format") }
+                false
+            }
+            password.length < 8 -> {
+                setEffect { AuthEffect.ShowToast("Password must be at least 8 characters") }
+                false
+            }
+            password.isBlank() -> {
+                setEffect { AuthEffect.ShowToast("Password cannot be empty") }
+                false
+            }
+            else -> true
         }
     }
 
@@ -72,5 +102,3 @@ class LoginViewModel @Inject constructor(
 
 
 }
-
-

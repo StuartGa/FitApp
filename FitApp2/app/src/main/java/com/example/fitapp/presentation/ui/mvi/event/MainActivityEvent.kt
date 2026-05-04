@@ -1,5 +1,6 @@
-import com.example.fitapp.presentation.ui.mvi.UIEvent
+package com.example.fitapp.presentation.ui.mvi.event
 
+import com.example.fitapp.presentation.ui.mvi.UIEvent
 
 sealed class MainActivityEvent : UIEvent {
 

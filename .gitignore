@@ -25,9 +25,22 @@ render.experimental.xml
 # Keystore files
 *.jks
 *.keystore
+*.p12
+*.pem
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 
+# Environment and secrets
+*.env
+*.env.*
+secrets.properties
+credentials.json
+service-account.json
+
 # Android Profiling
 *.hprof
+
+# OS files
+.DS_Store
+Thumbs.db

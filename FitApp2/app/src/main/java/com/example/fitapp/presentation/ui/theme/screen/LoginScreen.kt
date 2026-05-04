@@ -1,7 +1,6 @@
 package com.example.fitapp.presentation.ui.theme.screen
 
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
@@ -12,7 +11,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.fitapp.MainActivity
 import com.example.fitapp.presentation.ui.component.AuthForm
@@ -35,30 +33,24 @@ fun AuthScreen(
                     Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
                 AuthEffect.NavigateToDashboard -> {
-                    Toast.makeText(context, "", Toast.LENGTH_SHORT).show()
-
+                    val sendIntent = Intent(context, MainActivity::class.java)
+                    context.startActivity(sendIntent)
                 }
             }
         }
     }
 
-    // UI based on state
-    Log.d("LoginScreen", "state -> ${state.value}")
     when (state.value) {
-        is AuthState.Idle -> AuthForm(onEvent = {
-            Log.d("LoginScreen", "state -> ${it.toString()}")
-
-            viewModel.setEvent(it) })
+        is AuthState.Idle -> AuthForm(onEvent = { viewModel.setEvent(it) })
         is AuthState.Loading -> CircularProgressIndicator()
         is AuthState.Error -> {
-            AuthForm(onEvent = {
-                Log.d("LoginScreen", "state -> ${it.toString()}")
-                viewModel.setEvent(it) })
-            Text(text = "Error: ${(state.value as AuthState.Error).error}", modifier = Modifier.padding(16.dp))
-
+            AuthForm(onEvent = { viewModel.setEvent(it) })
+            Text(
+                text = "Error: ${(state.value as AuthState.Error).error}",
+                modifier = Modifier.padding(16.dp)
+            )
         }
         is AuthState.Success -> {
-            Log.d("LoginScreen", "state -> ${state.value}")
             val sendIntent = Intent(context, MainActivity::class.java)
             context.startActivity(sendIntent)
         }
