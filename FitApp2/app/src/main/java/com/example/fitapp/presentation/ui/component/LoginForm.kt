@@ -22,11 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fitapp.presentation.ui.mvi.event.AuthEvent
 
+private val EMAIL_REGEX = Regex("^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$")
+
 @Composable
-fun AuthForm(onEvent: (AuthEvent) -> Unit ) {
+fun AuthForm(onEvent: (AuthEvent) -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isLoginMode by remember { mutableStateOf(true) }
+    var emailError by remember { mutableStateOf<String?>(null) }
+    var passwordError by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -37,22 +41,49 @@ fun AuthForm(onEvent: (AuthEvent) -> Unit ) {
     ) {
         TextField(
             value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") }
+            onValueChange = {
+                email = it
+                emailError = if (it.isNotEmpty() && !EMAIL_REGEX.matches(it.trim())) {
+                    "Invalid email format"
+                } else {
+                    null
+                }
+            },
+            label = { Text("Email") },
+            isError = emailError != null,
+            supportingText = emailError?.let { { Text(it) } },
+            singleLine = true
         )
         Spacer(modifier = Modifier.height(8.dp))
         TextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                password = it
+                passwordError = if (it.isNotEmpty() && it.length < 8) {
+                    "Password must be at least 8 characters"
+                } else {
+                    null
+                }
+            },
             label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            isError = passwordError != null,
+            supportingText = passwordError?.let { { Text(it) } },
+            singleLine = true
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
+            val trimmedEmail = email.trim()
+            val isValid = EMAIL_REGEX.matches(trimmedEmail) && password.length >= 8
+            if (!isValid) {
+                if (!EMAIL_REGEX.matches(trimmedEmail)) emailError = "Invalid email format"
+                if (password.length < 8) passwordError = "Password must be at least 8 characters"
+                return@Button
+            }
             if (isLoginMode) {
-                onEvent.invoke(AuthEvent.Login(email, password))
+                onEvent(AuthEvent.Login(trimmedEmail, password))
             } else {
-                onEvent.invoke(AuthEvent.Register(email, password))
+                onEvent(AuthEvent.Register(trimmedEmail, password))
             }
         }) {
             Text(text = if (isLoginMode) "Login" else "Register")
@@ -62,12 +93,10 @@ fun AuthForm(onEvent: (AuthEvent) -> Unit ) {
             Text(text = if (isLoginMode) "Switch to Register" else "Switch to Login")
         }
     }
-
-
 }
 
 @Preview
 @Composable
-fun AuthPreview(){
-    AuthForm {  }
+fun AuthPreview() {
+    AuthForm { }
 }

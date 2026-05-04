@@ -1,5 +1,6 @@
-import com.example.fitapp.presentation.ui.mvi.UIState
+package com.example.fitapp.presentation.ui.mvi.state
 
+import com.example.fitapp.presentation.ui.mvi.UIState
 
 sealed class MainActivityState: UIState {
     object Idle : MainActivityState()
