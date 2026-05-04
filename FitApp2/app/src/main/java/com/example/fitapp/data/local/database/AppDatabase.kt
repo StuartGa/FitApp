@@ -1,0 +1,31 @@
+package com.example.fitapp.data.local.database
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.example.fitapp.domain.entities.BodyMeasurementEntity
+import com.example.fitapp.domain.entities.GoalEntity
+import com.example.fitapp.domain.entities.StepsEntity
+import com.example.fitapp.domain.entities.UserEntity
+import com.example.fitapp.domain.entities.UserProfileEntity
+import com.example.fitapp.domain.view.StepsView
+import com.example.fitapp.domain.view.UserView
+
+@Database(
+    entities = [
+        UserEntity::class,
+        StepsEntity::class,
+        UserProfileEntity::class,
+        GoalEntity::class,
+        BodyMeasurementEntity::class
+    ],
+    views = [UserView::class, StepsView::class],
+    version = 3,
+    exportSchema = false
+)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+    abstract fun stepsDao(): StepsDao
+    abstract fun userProfileDao(): UserProfileDao
+    abstract fun goalDao(): GoalDao
+    abstract fun bodyMeasurementDao(): BodyMeasurementDao
+}

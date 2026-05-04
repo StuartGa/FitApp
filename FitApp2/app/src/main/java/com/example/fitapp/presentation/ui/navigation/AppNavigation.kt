@@ -14,9 +14,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.fitapp.presentation.ui.component.BottomNavItem
 import com.example.fitapp.presentation.ui.component.FitBottomNav
 import com.example.fitapp.presentation.ui.screens.DashboardScreen
+import com.example.fitapp.presentation.ui.screens.profile.ProfileScreen
+import com.example.fitapp.presentation.ui.viewModel.ProfileViewModel
 
 @Composable
 fun AppNavigation(
@@ -44,7 +47,10 @@ fun AppNavigation(
                 BottomNavItem.WORKOUTS -> PlaceholderScreen("Workouts")
                 BottomNavItem.TRACKING -> PlaceholderScreen("Activity Tracking")
                 BottomNavItem.PROGRESS -> PlaceholderScreen("Progress")
-                BottomNavItem.PROFILE -> PlaceholderScreen("Profile")
+                BottomNavItem.PROFILE -> {
+                    val profileViewModel: ProfileViewModel = hiltViewModel()
+                    ProfileScreen(viewModel = profileViewModel)
+                }
             }
         }
     }
