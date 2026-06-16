@@ -34,10 +34,6 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.FitApp" />
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            tools:node="remove" />
     </application>
 
 </manifest>

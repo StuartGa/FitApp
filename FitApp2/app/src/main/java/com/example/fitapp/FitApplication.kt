@@ -13,14 +13,13 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.fitapp.domain.worker.StepCountWorker
-import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
 @RequiresApi(Build.VERSION_CODES.S)
-internal class FitApplication : Application(), Configuration.Provider {
+class FitApplication : Application(), Configuration.Provider {
 
     private lateinit var sensorManager: SensorManager
     private var sensor: Sensor? = null
@@ -48,11 +47,6 @@ internal class FitApplication : Application(), Configuration.Provider {
                 "MyUniqueWorkName",
                 ExistingPeriodicWorkPolicy.UPDATE, myWork
             )
-
-        // Initialize FirebaseApp here
-        if (FirebaseApp.getApps(this).isEmpty()) {
-            FirebaseApp.initializeApp(this) // Ensure Firebase is initialized
-        }
     }
 
     override val workManagerConfiguration: Configuration

@@ -27,6 +27,7 @@ appcompat = "1.7.0"
 hiltWork = "1.2.0"
 storage = "1.5.0"
 accessibilityTestFramework = "4.1.1"
+googleServices = "4.4.4"
 
 [libraries]
 androidx-connect-client = { module = "androidx.health.connect:connect-client", version.ref = "connectClient" }
@@ -70,4 +71,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 

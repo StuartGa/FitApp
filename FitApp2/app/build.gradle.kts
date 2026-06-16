@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-    id("com.google.gms.google-services") version "4.4.2"
+    alias(libs.plugins.google.services)
 
 }
 
@@ -73,8 +73,6 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.storage)
-    implementation(libs.androidx.storage)
-    implementation(libs.accessibility.test.framework)
     implementation(libs.accessibility.test.framework)
     ksp(libs.androidx.room.compiler)
 

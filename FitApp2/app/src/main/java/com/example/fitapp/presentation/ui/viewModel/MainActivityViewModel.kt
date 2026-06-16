@@ -47,7 +47,13 @@ class MainActivityViewModel @Inject constructor(
                 .collect { result ->
                     result.fold(
                         onSuccess = { steps ->
-                            setState { MainActivityState.Success(steps) }
+                            setState {
+                                MainActivityState.Success(
+                                    steps = steps,
+                                    circleModels = emptyList(),
+                                    cards = emptyList()
+                                )
+                            }
                         },
                         onFailure = { error ->
                             setState { MainActivityState.Error(error.message ?: "Unknown error") }
